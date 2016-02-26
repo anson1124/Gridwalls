@@ -1,0 +1,3 @@
+Kjør testene i paralllell	
+	Må bruke ny port for hver test.
+		The active Test Run was aborted because the execution process exited unexpectedly. To investigate further, enable local crash dumps either at the machine level or for process te.processhost.managed.exe. Go to more details: http://go.micr osoft.com/fwlink/?linkid=232477
