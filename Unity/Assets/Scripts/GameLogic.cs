@@ -11,10 +11,6 @@ public class GameLogic : MonoBehaviour
     public GameObject CellGroup;
     public GameObject CellPrefab;
 
-    public int MapWidth = 8;
-    public int MapHeight = 5;
-
-    //private GameUnity _game;
     private Game _game;
 
     public GameLogic()
@@ -25,17 +21,10 @@ public class GameLogic : MonoBehaviour
     // Use this for initialization
     void Start () {
         Debug.Log("------------------------------------------------- GAME START --------------------------------------------------");
-        var config = new CellConfiguration
-        {
-            CellGroup = CellGroup,
-            CellPrefab = CellPrefab,
-            MapWidth = MapWidth,
-            MapHeight = MapHeight
-        };
+        _game = new Game();
         cellInstantiator.InstantiateCells(config);
         Debug.Log("------------------------------------------------- GAME START DONE --------------------------------------------------");
 
-        _game = new Game();
         StartCoroutine(NextTurn());
     }
     
