@@ -30,23 +30,23 @@ public class GameLogic : MonoBehaviour
         };
         cellInstantiator.InstantiateCells(config);
         Debug.Log("------------------------------------------------- GAME START DONE --------------------------------------------------");
-        //_game = new Game(MediatorUnity.Mediator, new Map(5, 4));
-        //_game.Instantiate();
 
-        //StartCoroutine(NextTurn());
+        StartCoroutine(NextTurn());
+    }
+    
+    void Update () // Update is called once per frame
+    {
     }
 
+    private Game _game = new Game();
     IEnumerator NextTurn()
     {
         while (true)
         {
-            //_game.NextTurn();
+            Debug.Log("Next turn.");
+            _game.NextTurn();
             yield return new WaitForSeconds(1);
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-	
-	}
 }

@@ -68,6 +68,7 @@
     <Compile Include="Assets\DebugLogConsole.cs" />
     <Compile Include="Assets\Scripts\CellConfiguration.cs" />
     <Compile Include="Assets\Scripts\CellInstantiator.cs" />
+    <Compile Include="Assets\Scripts\Game.cs" />
     <Compile Include="Assets\Scripts\GameLogic.cs" />
   </ItemGroup>
   <ItemGroup>

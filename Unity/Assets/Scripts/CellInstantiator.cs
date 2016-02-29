@@ -26,7 +26,7 @@ namespace Assets.Scripts
 
                     Vector3 spawnPosition = new Vector3(xPos, yPos, zPos);
                     //Quaternion spawnRotation2 = Quaternion.identity;
-                    Debug.Log("Instantiating CellPrefab " + config.CellPrefab + " " + x + ", " + z + " at position " + xPos + " - " + yPos + " - " + zPos);
+                    //Debug.Log("Instantiating CellPrefab " + config.CellPrefab + " " + x + ", " + z + " at position " + xPos + " - " + yPos + " - " + zPos);
                     GameObject clone = UnityEngine.Object.Instantiate(config.CellPrefab, spawnPosition, Quaternion.Euler(90, 0, 0)) as GameObject;
                     clone.transform.parent = config.CellGroup.transform; // Puts the clone as a child of a parent game object
                 }
