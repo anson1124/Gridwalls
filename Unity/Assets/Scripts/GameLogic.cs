@@ -2,16 +2,20 @@
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using GameClient;
 
 public class GameLogic : MonoBehaviour
 {
+    private readonly CellInstantiator cellInstantiator;
+
     public GameObject CellGroup;
     public GameObject CellPrefab;
 
     public int MapWidth = 8;
     public int MapHeight = 5;
 
-    private CellInstantiator cellInstantiator;
+    //private GameUnity _game;
+    private Game _game;
 
     public GameLogic()
     {
@@ -31,6 +35,7 @@ public class GameLogic : MonoBehaviour
         cellInstantiator.InstantiateCells(config);
         Debug.Log("------------------------------------------------- GAME START DONE --------------------------------------------------");
 
+        _game = new Game();
         StartCoroutine(NextTurn());
     }
     
@@ -38,7 +43,6 @@ public class GameLogic : MonoBehaviour
     {
     }
 
-    private Game _game = new Game();
     IEnumerator NextTurn()
     {
         while (true)

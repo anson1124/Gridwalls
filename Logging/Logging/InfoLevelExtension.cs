@@ -1,6 +1,6 @@
 ﻿namespace Logging
 {
-    public static class InfoLevelExtension
+    internal static class InfoLevelExtension
     {
         public static string Shortversion(this InfoLevel infoLevel)
         {

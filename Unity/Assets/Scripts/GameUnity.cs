@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts
 {
-    public class Game
+    public class GameUnity
     {
         public void NextTurn()
         {

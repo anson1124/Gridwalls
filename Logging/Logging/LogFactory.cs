@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Logging
 {
-    public class LogFactory
+    internal class LogFactory
     {
         public string Log(string text)
         {

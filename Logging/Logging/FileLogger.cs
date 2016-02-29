@@ -9,13 +9,17 @@ namespace Logging
         private readonly LogFactory _logFactory;
         private readonly object _logLock = new object();
 
-        public FileLogger() : this($"log_{Path.GetRandomFileName()}", "css")
+        public FileLogger() : this("./")
         {
         }
 
-        public FileLogger(string filenamePrefix, string filenameExtension)
+        public FileLogger(string path) : this(path, $"log_{Path.GetRandomFileName()}", "css")
         {
-            string logFilename = $"log_{filenamePrefix}{Path.GetRandomFileName()}.{filenameExtension}";
+        }
+
+        public FileLogger(string path, string filenamePrefix, string filenameExtension)
+        {
+            string logFilename = path + $"{filenamePrefix}{Path.GetRandomFileName()}.{filenameExtension}";
             _logStreamWriter = new StreamWriter(logFilename);
             _logFactory = new LogFactory();
         }
@@ -25,6 +29,7 @@ namespace Logging
             lock (_logLock)
             {
                 _logStreamWriter.WriteLine(_logFactory.Log(text));
+                _logStreamWriter.Flush();
             }
         }
 

@@ -88,6 +88,12 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="GameClient">
+      <HintPath>Assets\Scripts\DLLs\GameClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Logging">
+      <HintPath>Assets\Scripts\DLLs\Logging.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.CSharp.csproj">
