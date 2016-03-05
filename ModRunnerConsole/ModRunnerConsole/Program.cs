@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using ModWrapper;
+
+namespace ModRunnerConsole
+{
+    class Program
+    {
+        private const String Host = "127.0.0.1";
+        private const int Port = 22050;
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Running mods...");
+
+            Console.WriteLine("Running SkeletonMod...");
+            Mod skeletonMod = new SkeletonMod.ModRunner();
+            skeletonMod.ConnectToServer(Host, Port);
+            Console.WriteLine("SkeletonMod Connected...");
+
+            exitWhenUserPressesEscape();
+
+            Console.WriteLine("Disconnecting SkeletonMod...");
+            skeletonMod.Disconnect();
+            Console.WriteLine("Quitting.");
+        }
+         
+        private static void exitWhenUserPressesEscape()
+        {
+            while (true)
+            {
+                if (Console.KeyAvailable && Console.ReadKey().Key.Equals(ConsoleKey.Escape))
+                {
+                    return;
+                }
+
+                Thread.Sleep(1000);
+            }
+        }
+    }
+}

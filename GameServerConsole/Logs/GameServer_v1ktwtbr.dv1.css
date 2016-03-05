@@ -1,0 +1,41 @@
+[INFO ] [ConnectionListener] ListenForConnectionsInANewThread. _hasStartedListeningInANewThread = False
+[TRAC ] [ConnectionListener] Starting listening in a new thread.
+[TRAC ] [ConnectionListener] The new thread has started.
+[TRAC ] [ConnectionListener] Starting tcp listener.
+[TRAC ] [ConnectionListener] Start of listening while loop for new connections.
+[TRAC ] [ConnectionListener] _hasStartedListening=False.
+[TRAC ] [ConnectionListener] Signalling _tcpListenerStartedEvent
+[TRAC ] [ConnectionListener] Waiting for acceptTcpClientTask (= new connection or stop signal)...
+[TRAC ] [ConnectionListener] Waiting for acceptTcpClientTask done. Got a real client.
+[INFO ] [ConnectionListener] Client connected.
+[TRAC ] [ConnectionListener] Start of listening while loop for new connections.
+[TRAC ] [ConnectionListener] _hasStartedListening=True.
+[TRAC ] [ConnectionListener] Waiting for acceptTcpClientTask (= new connection or stop signal)...
+[INFO ] [MessageListener] Server-client e16ae - ReadLoop: Waiting for message.
+[INFO ] [MessageStreamReader] Reading next message length...
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte...
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte... done! Got byte: 49
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte...
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte... done! Got byte: 57
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte...
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte... done! Got byte: 44
+[INFO ] [MessageLengthReader] Not numerical byte, exiting while loop.
+[INFO ] [MessageLengthReader] Returning message length: 19
+[INFO ] [MessageStreamReader] Reading next message length... Result: 19
+[INFO ] [BufferedReader] Read message, message length=19
+[INFO ] [BufferedReader] Read from buffer, offset=0, bytesToRead=19
+[INFO ] [BufferedReader] Appending to message: Skeleton reporting!
+[INFO ] [MessageListener] Server-client e16ae - ReadLoop: Message received: Skeleton reporting!
+[INFO ] [MessageListener] Server-client e16ae - ReadLoop: Invoking OnMessageReceived with msg: Skeleton reporting!
+[INFO ] [MessageListener] Server-client e16ae - ReadLoop: Waiting for message.
+[INFO ] [MessageStreamReader] Reading next message length...
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte...
+[INFO ] [MessageLengthReader] GetNextMessageLength, loop: Reading byte... done! Got byte: -1
+[INFO ] [MessageLengthReader] Byte was -1, returning 0.
+[INFO ] [MessageStreamReader] Reading next message length... Result: 0
+[INFO ] [MessageStreamReader] MessageLengthReader returned 0 length, stopping listening for messages.
+[INFO ] [MessageListener] Server-client e16ae - ReadLoop: Message received: 
+[INFO ] [MessageListener] Server-client e16ae - ReadLoop: Node returned empty string, stopping listening for messages.
+[INFO ] [MessageListener] Server-client e16ae - Done listening for messages.
+[INFO ] [ConnectionListener] Aborting listening. _hasStartedListeningInANewThread=True _hasStartedListening=True
+[TRAC ] [ConnectionListener] Stop was called when waiting for acceptTcpClientTask. Aborting listening.
