@@ -11,7 +11,7 @@ namespace GameServerConsole
 {
     class ServerLauncher
     {
-        private bool clientConnected;
+        private Launcher launcher;
 
         static void Main(string[] args)
         {
@@ -25,13 +25,12 @@ namespace GameServerConsole
             launcher.ClientConnected += onClientConnected;
             launcher.Host(22050);
             runGameOnConnectOrContinueIfUserPressesEscape();
-            launcher.Disconect();
+            launcher.Disconnect();
             Thread.Sleep(1000);
         }
 
         private void onClientConnected()
         {
-            clientConnected = true;
             Console.WriteLine("Client connected!");
         }
 
@@ -39,22 +38,13 @@ namespace GameServerConsole
         {
             string connectOrEscape = waitForCLientToConnectOrUserPressesEscape();
             Console.WriteLine("What happened: " + connectOrEscape);
-            if (connectOrEscape.Equals("clientConnected"))
-            {
-                runGame(); // Game ends after x turns or when user presses escape
-            }
         }
 
         private string waitForCLientToConnectOrUserPressesEscape()
         {
             while (true)
             {
-                Console.WriteLine("Waiting for user to connect. Press escape to cancel.");
-                if (clientConnected)
-                {
-                    return "clientConnected";
-                }
-
+                Console.WriteLine("Press escape to shutdown server.");
                 if (Console.KeyAvailable && Console.ReadKey().Key.Equals(ConsoleKey.Escape))
                 {
                     return "userPressedEscape";
@@ -63,11 +53,5 @@ namespace GameServerConsole
                 Thread.Sleep(1000);
             }
         }
-
-        private void runGame()
-        {
-            Console.WriteLine("Starting game which does some work...");
-        }
-
     }
 }

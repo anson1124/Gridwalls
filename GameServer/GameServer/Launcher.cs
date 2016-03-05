@@ -27,8 +27,9 @@ namespace GameServer
             server.OnClientConnected += () => ClientConnected?.Invoke();
         }
 
-        public void Disconect()
+        public void Disconnect()
         {
+            logger.Write<Launcher>("Shutting down server.");
             server.Shutdown();
         }
     }

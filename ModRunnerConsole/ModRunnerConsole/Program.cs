@@ -19,8 +19,9 @@ namespace ModRunnerConsole
 
             Console.WriteLine("Running SkeletonMod...");
             Mod skeletonMod = new SkeletonMod.ModRunner();
+            skeletonMod.OnDisconnect += onDisconnect;
             skeletonMod.ConnectToServer(Host, Port);
-            Console.WriteLine("SkeletonMod Connected...");
+            Console.WriteLine("SkeletonMod connected.");
 
             exitWhenUserPressesEscape();
 
@@ -28,7 +29,12 @@ namespace ModRunnerConsole
             skeletonMod.Disconnect();
             Console.WriteLine("Quitting.");
         }
-         
+
+        private static void onDisconnect()
+        {
+            Console.WriteLine("SkeletonMod disconnected.");
+        }
+
         private static void exitWhenUserPressesEscape()
         {
             while (true)
