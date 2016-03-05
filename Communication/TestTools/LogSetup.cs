@@ -5,8 +5,8 @@ namespace TestTools
 {
     public class LogSetup
     {
-        private const String Path = "../../../../../";
-        private const String FilenamePrefix = "logs/testLog_";
+        private const String Path = "../../../Logs/";
+        private const String FilenamePrefix = "testLog_";
         private const String FilenameExtension = "css";
 
         public static Logger CreateLogger()

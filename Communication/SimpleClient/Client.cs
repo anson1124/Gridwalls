@@ -12,51 +12,62 @@ namespace SimpleClient
         public event Action OnConnected;
         public event Action<String> OnMessageReceived
         {
-            add { _messageListener.OnMessageReceived += value; }
-            remove { _messageListener.OnMessageReceived -= value; }
+            add { messageListener.OnMessageReceived += value; }
+            remove { messageListener.OnMessageReceived -= value; }
         }
 
-        private TcpClient _tcpClient;
-        private readonly MessageListener _messageListener;
-        private Node _server;
-        private readonly Logger _logger;
+        public event Action OnDisconnected;
+
+        private TcpClient tcpClient;
+        private readonly MessageListener messageListener;
+        private Node server;
+        private readonly Logger logger;
 
         public Client(Logger logger)
         {
-            _logger = logger;
-            _messageListener = new MessageListener(_logger, "Client " + Guid.NewGuid().ToString().Substring(1, 5));
+            this.logger = logger;
+            messageListener = new MessageListener(this.logger, "Client " + Guid.NewGuid().ToString().Substring(1, 5));
         }
 
         public void Connect(string host, int port)
         {
-            _tcpClient = new TcpClient();
-            _logger.Write<Client>("Connecting...");
-            _tcpClient.Connect(host, port);
-            _logger.Write<Client>("Connected");
+            messageListener.DoneListeningForMessages += disconnectedFromServer;
+
+            tcpClient = new TcpClient();
+            logger.Write<Client>("Connecting...");
+            tcpClient.Connect(host, port);
+            logger.Write<Client>("Connected");
             startListeningForMessagesInANewThread();
             OnConnected?.Invoke();
         }
 
+        private void disconnectedFromServer()
+        {
+            logger.Write<Client>("Disconnected from server. Closing tcp client and notifying listeners.");
+            tcpClient.Close();
+            OnDisconnected?.Invoke();
+        }
+
         private void startListeningForMessagesInANewThread()
         {
-            _server = new ClientNode(_logger, _tcpClient);
-            _logger.Write<Client>("Starting listening for messages in a new thread...");
+            server = new ClientNode(logger, tcpClient);
+            logger.Write<Client>("Starting listening for messages in a new thread...");
             Task listenForMessagesTask = new Task(() =>
             {
-                _messageListener.ListenForMessages(_server);
+                messageListener.ListenForMessages(server);
             });
             listenForMessagesTask.Start();
-            _logger.Write<Client>("Starting listening for messages in a new thread... started");
+            logger.Write<Client>("Starting listening for messages in a new thread... started");
         }
 
         public void SendMessage(string msg)
         {
-            _server.SendMessage(msg);
+            server.SendMessage(msg);
         }
 
         public void Disconnect()
         {
-            _tcpClient.Close();
+            tcpClient.Close();
         }
     }
 }

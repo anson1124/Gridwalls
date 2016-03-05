@@ -7,37 +7,35 @@ namespace Messaging
     {
         public event Action<string> OnMessageReceived;
         public event Action DoneListeningForMessages;
-        private readonly Logger _logger;
-        private readonly string _name;
+        private readonly Logger logger;
+        private readonly string name;
 
         public MessageListener(Logger logger, String name)
         {
-            _logger = logger;
-            _name = name;
+            this.logger = logger;
+            this.name = name;
         }
 
         public void ListenForMessages(Node node)
         {
             while (true)
             {
-                _logger.Write<MessageListener>($"{_name} - ReadLoop: Waiting for message.");
+                logger.Write<MessageListener>($"{name} - ReadLoop: Waiting for message.");
                 String msgReceived = node.Read();
-                _logger.Write<MessageListener>($"{_name} - ReadLoop: Message received: {msgReceived}");
+                logger.Write<MessageListener>($"{name} - ReadLoop: Message received: {msgReceived}");
 
                 if (msgReceived == "")
                 {
-                    _logger.Write<MessageListener>($"{_name} - ReadLoop: Node returned empty string, stopping listening for messages.");
+                    logger.Write<MessageListener>($"{name} - ReadLoop: Node returned empty string, stopping listening for messages.");
                     break;
                 }
 
-                _logger.Write<MessageListener>($"{_name} - ReadLoop: Invoking OnMessageReceived with msg: {msgReceived}");
+                logger.Write<MessageListener>($"{name} - ReadLoop: Invoking OnMessageReceived with msg: {msgReceived}");
                 OnMessageReceived?.Invoke(msgReceived);
             }
 
-            _logger.Write<MessageListener>($"{_name} - Done listening for messages.");
+            logger.Write<MessageListener>($"{name} - Done listening for messages.");
             DoneListeningForMessages?.Invoke();
         }
-
-        // TODO: Support abort reading.
     }
 }

@@ -14,7 +14,7 @@ namespace SimpleServer.Tests
 {
     public class IntegrationTest : IDisposable
     {
-        private readonly Logger _logger;
+        private readonly Logger logger;
 
         private const string Localhost = "127.0.0.1";
 
@@ -22,31 +22,31 @@ namespace SimpleServer.Tests
 
         public IntegrationTest()
         {
-            _logger = LogSetup.CreateLogger();
+            logger = LogSetup.CreateLogger();
         }
 
         public void Dispose()
         {
-            LogSetup.DisposeLogger(_logger);
+            LogSetup.DisposeLogger(logger);
         }
 
         [Fact]
         public void Should_distribute_message_to_other_connected_client()
         {
             // Given
-            int port = new PortSetup(_logger).GetNextPort();
-            var server = new Server(_logger);
+            int port = new PortSetup(logger).GetNextPort();
+            var server = new Server(logger);
             server.ListenForConnectionsInANewThread(port);
 
-            _logger.Write<IntegrationTest>("Connecting client 1");
-            var client1 = new Client(_logger);
+            logger.Write<IntegrationTest>("Connecting client 1");
+            var client1 = new Client(logger);
             AutoResetEvent client1Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client1Connected.Set();
             client1.Connect(Localhost, port);
             client1Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 1 never connected");
 
-            _logger.Write<IntegrationTest>("Connecting client 2");
-            var client2 = new Client(_logger);
+            logger.Write<IntegrationTest>("Connecting client 2");
+            var client2 = new Client(logger);
             AutoResetEvent client2Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client2Connected.Set();
             client2.Connect(Localhost, port);
@@ -61,7 +61,7 @@ namespace SimpleServer.Tests
             };
 
             // When
-            _logger.Write<IntegrationTest>("Sending message.");
+            logger.Write<IntegrationTest>("Sending message.");
             client1.SendMessage("Hey there");
             client2MessageReceived.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Never received message from client");
 
@@ -72,7 +72,7 @@ namespace SimpleServer.Tests
             client2.Disconnect();
             client1.Disconnect();
             server.Shutdown();
-            _logger.Write<IntegrationTest>("Integration test done.");
+            logger.Write<IntegrationTest>("Integration test done.");
         }
 
 
@@ -80,33 +80,33 @@ namespace SimpleServer.Tests
         public void Should_distribute_message_to_two_other_connected_client()
         {
             // Given
-            int port = new PortSetup(_logger).GetNextPort();
-            var server = new Server(_logger);
+            int port = new PortSetup(logger).GetNextPort();
+            var server = new Server(logger);
             server.ListenForConnectionsInANewThread(port);
 
-            _logger.Write<IntegrationTest>("Connecting client 1");
-            var client1 = new Client(_logger);
+            logger.Write<IntegrationTest>("Connecting client 1");
+            var client1 = new Client(logger);
             AutoResetEvent client1Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client1Connected.Set();
             client1.Connect(Localhost, port);
             client1Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 1 never connected");
 
-            _logger.Write<IntegrationTest>("Connecting client 2");
-            var client2 = new Client(_logger);
+            logger.Write<IntegrationTest>("Connecting client 2");
+            var client2 = new Client(logger);
             AutoResetEvent client2Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client2Connected.Set();
             client2.Connect(Localhost, port);
             client2Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 2 never connected");
 
-            _logger.Write<IntegrationTest>("Connecting client 3");
-            var client3 = new Client(_logger);
+            logger.Write<IntegrationTest>("Connecting client 3");
+            var client3 = new Client(logger);
             AutoResetEvent client3Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client3Connected.Set();
             client3.Connect(Localhost, port);
             client3Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 3 never connected");
 
-            _logger.Write<IntegrationTest>("Connecting client 2");
-            var client4 = new Client(_logger);
+            logger.Write<IntegrationTest>("Connecting client 2");
+            var client4 = new Client(logger);
             AutoResetEvent client4Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client4Connected.Set();
             client4.Connect(Localhost, port);
@@ -134,7 +134,7 @@ namespace SimpleServer.Tests
             };
 
             // When
-            _logger.Write<IntegrationTest>("Sending message from one of the clients.");
+            logger.Write<IntegrationTest>("Sending message from one of the clients.");
             client2.SendMessage("Hey there");
 
             // Then
@@ -148,7 +148,35 @@ namespace SimpleServer.Tests
             client3.Disconnect();
             client4.Disconnect();
             server.Shutdown();
-            _logger.Write<IntegrationTest>("Integration test done.");
+            logger.Write<IntegrationTest>("Integration test done.");
+        }
+
+        [Fact]
+        public void client_should_be_notified_when_disconnected_from_server()
+        {
+            // Given
+            int port = new PortSetup(logger).GetNextPort();
+            var server = new Server(logger);
+            server.ListenForConnectionsInANewThread(port);
+
+            logger.Write<IntegrationTest>("Connecting client 1");
+            var client1 = new Client(logger);
+            bool disconnected = false;
+            client1.OnDisconnected += () =>
+            {
+                disconnected = true;
+            };
+            AutoResetEvent client1Connected = new AutoResetEvent(false);
+            server.OnClientConnected += () => client1Connected.Set();
+            client1.Connect(Localhost, port);
+            client1Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 1 never connected");
+
+            // When
+            server.Shutdown();
+            Thread.Sleep(300);
+
+            // Then
+            Assert.True(disconnected);
         }
     }
 }

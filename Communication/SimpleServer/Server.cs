@@ -16,39 +16,39 @@ namespace SimpleServer
     {
         public event Action OnClientConnected;
 
-        private readonly ConnectionListener _connectionListener;
-        private readonly List<ClientNode> _clientNodes = new List<ClientNode>();
-        private readonly Logger _logger;
+        private readonly ConnectionListener connectionListener;
+        private readonly List<ClientNode> clientNodes = new List<ClientNode>();
+        private readonly Logger logger;
 
         public Server(Logger logger)
         {
-            _logger = logger;
-            _connectionListener = new ConnectionListener(_logger);
+            this.logger = logger;
+            connectionListener = new ConnectionListener(this.logger);
         }
 
         public void ListenForConnectionsInANewThread(int port)
         {
-            _connectionListener.ListenForConnectionsInANewThread(port);
-            _connectionListener.OnClientConnected += setupCommunicationWith;
+            connectionListener.ListenForConnectionsInANewThread(port);
+            connectionListener.OnClientConnected += setupCommunicationWith;
         }
 
         private void setupCommunicationWith(TcpClient tcpClient)
         {
-            var clientNode = createClientNode(tcpClient);
+            ClientNode clientNode = createClientNode(tcpClient);
             setupMessageListener(clientNode);
             OnClientConnected?.Invoke();
         }
 
         private ClientNode createClientNode(TcpClient tcpClient)
         {
-            ClientNode client = new ClientNode(_logger, tcpClient);
-            _clientNodes.Add(client);
+            ClientNode client = new ClientNode(logger, tcpClient);
+            clientNodes.Add(client);
             return client;
         }
 
         private void setupMessageListener(ClientNode client)
         {
-            var messageListener = new MessageListener(_logger, "Server-client " + Guid.NewGuid().ToString().Substring(0, 5));
+            var messageListener = new MessageListener(logger, "Server-client " + Guid.NewGuid().ToString().Substring(0, 5));
             messageListener.OnMessageReceived += (msg) => broadcastMessageToAllOtherClients(client, msg);
             Task.Run(() => { messageListener.ListenForMessages(client); });
         }
@@ -58,16 +58,22 @@ namespace SimpleServer
             var theClientThatTheMessageCameFrom = new List<ClientNode>();
             theClientThatTheMessageCameFrom.Add(client);
 
-            foreach (var clientNode in _clientNodes.Except(theClientThatTheMessageCameFrom))
+            foreach (var clientNode in clientNodes.Except(theClientThatTheMessageCameFrom))
             {
-                _logger.Write<Server>($"Broadcasting message to client: {msg}");
+                logger.Write<Server>($"Broadcasting message to client: {msg}");
                 clientNode.SendMessage(msg);
             }
         }
         
         public void Shutdown()
         {
-            _connectionListener.StopListening();
+            logger.Write<Server>("Shutdown called.");
+            connectionListener.StopListening();
+            foreach (ClientNode node in clientNodes)
+            {
+                logger.Write<Server>("Closing connection to client...");
+                node.Close();
+            }
         }
 
     }
