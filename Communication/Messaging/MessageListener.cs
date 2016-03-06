@@ -6,7 +6,7 @@ namespace Messaging
     public class MessageListener
     {
         public event Action<string> OnMessageReceived;
-        public event Action DoneListeningForMessages;
+        public event Action<Node> DoneListeningForMessages;
         private readonly Logger logger;
         private readonly string name;
 
@@ -35,7 +35,7 @@ namespace Messaging
             }
 
             logger.Write<MessageListener>(InfoLevel.Trace, $"{name} - Done listening for messages.");
-            DoneListeningForMessages?.Invoke();
+            DoneListeningForMessages?.Invoke(node);
         }
     }
 }

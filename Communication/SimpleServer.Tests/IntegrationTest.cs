@@ -35,7 +35,7 @@ namespace SimpleServer.Tests
         {
             // Given
             int port = new PortSetup(logger).GetNextPort();
-            var server = new Server(logger);
+            var server = new Server(logger, new ConnectionListener(logger), new ClientNodeFactory());
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
@@ -81,7 +81,7 @@ namespace SimpleServer.Tests
         {
             // Given
             int port = new PortSetup(logger).GetNextPort();
-            var server = new Server(logger);
+            var server = new Server(logger, new ConnectionListener(logger), new ClientNodeFactory());
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
@@ -156,7 +156,7 @@ namespace SimpleServer.Tests
         {
             // Given
             int port = new PortSetup(logger).GetNextPort();
-            var server = new Server(logger);
+            var server = new Server(logger, new ConnectionListener(logger), new ClientNodeFactory());
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");

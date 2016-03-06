@@ -8,7 +8,7 @@ using SimpleTcpServer;
 
 namespace SimpleServer
 {
-    public class ConnectionListener
+    public class ConnectionListener : IConnectionListener
     {
         public event Action<TcpClient> OnClientConnected;
 

@@ -41,7 +41,7 @@ namespace SimpleClient
             OnConnected?.Invoke();
         }
 
-        private void disconnectedFromServer()
+        private void disconnectedFromServer(Node server)
         {
             logger.Write<Client>("Disconnected from server. Closing tcp client and notifying listeners.");
             tcpClient.Close();
