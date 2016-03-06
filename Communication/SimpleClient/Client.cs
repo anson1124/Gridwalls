@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Logging;
 using Messaging;
 
-namespace SimpleClient
+namespace SimpleServer
 {
     public class Client
     {

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Messaging;
-using SimpleClient;
+using SimpleServer;
 using SimpleTcpServer;
 
 namespace SimpleServer
@@ -16,72 +16,33 @@ namespace SimpleServer
     {
         public event Action OnClientConnected;
 
-        private readonly IConnectionListener connectionListener;
-        private readonly IClientNodeFactory clientNodeFactory;
-        private readonly List<Node> clientNodes = new List<Node>();
         private readonly Logger logger;
 
-        public Server(Logger logger, IConnectionListener connectionListener, IClientNodeFactory clientNodeFactory)
+        private readonly IConnectionListener connectionListener;
+        private readonly ICommunicator communicator;
+
+        public Server(Logger logger, IConnectionListener connectionListener, ICommunicator communicator)
         {
             this.logger = logger;
             this.connectionListener = connectionListener;
-            this.clientNodeFactory = clientNodeFactory;
+            this.communicator = communicator;
         }
 
         public void ListenForConnectionsInANewThread(int port)
         {
             connectionListener.ListenForConnectionsInANewThread(port);
-            connectionListener.OnClientConnected += setupCommunicationWith;
-        }
-
-        private void setupCommunicationWith(TcpClient tcpClient)
-        {
-            Node clientNode = createClientNode(tcpClient);
-            setupMessageListener(clientNode);
-            OnClientConnected?.Invoke();
-        }
-
-        private Node createClientNode(TcpClient tcpClient)
-        {
-            Node client = clientNodeFactory.Create(logger, tcpClient);
-            clientNodes.Add(client);
-            return client;
-        }
-
-        private void setupMessageListener(Node client)
-        {
-            string clientName = "Server-client " + Guid.NewGuid().ToString().Substring(0, 5);
-            var messageListener = new MessageListener(logger, clientName);
-            messageListener.OnMessageReceived += (msg) => broadcastMessageToAllOtherClients(client, msg);
-            messageListener.DoneListeningForMessages += disconnectFromClient;
-            Task.Run(() => { messageListener.ListenForMessages(client); });
-        }
-
-        private void broadcastMessageToAllOtherClients(Node client, string msg)
-        {
-            var theClientThatTheMessageCameFrom = new List<Node> {client};
-
-            foreach (var clientNode in clientNodes.Except(theClientThatTheMessageCameFrom))
+            connectionListener.OnClientConnected += tcpClient =>
             {
-                logger.Write<Server>($"Broadcasting message to client: {msg}");
-                clientNode.SendMessage(msg);
-            }
-        }
-
-        private void disconnectFromClient(Node clientNode)
-        {
-            //clientNode.Close();
+                communicator.SetupCommunicationWith(tcpClient);
+                OnClientConnected?.Invoke();
+            };
         }
 
         public void Shutdown()
         {
-            logger.Write<Server>("Shutdown called.");
+            logger.Write<Server>("Shutting down server.");
             connectionListener.StopListening();
-            foreach (Node node in clientNodes)
-            {
-                logger.Write<Server>("Closing connection to client...");
-                node.Close();
-            }
+            communicator.CloseConnectionToAllClients();
         }
 
     }

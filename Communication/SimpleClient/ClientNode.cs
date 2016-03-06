@@ -4,7 +4,7 @@ using Logging;
 using Messaging;
 using Messaging.Tests;
 
-namespace SimpleClient
+namespace SimpleServer
 {
     public class ClientNode : Node
     {

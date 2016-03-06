@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 using Logging;
-using SimpleClient;
+using SimpleServer;
 
 namespace SimpleServer
 {

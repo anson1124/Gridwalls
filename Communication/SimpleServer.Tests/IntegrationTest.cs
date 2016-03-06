@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
-using SimpleClient;
+using SimpleServer;
 using SimpleTcpServer;
 using TestTools;
 using Xunit;
@@ -35,7 +35,7 @@ namespace SimpleServer.Tests
         {
             // Given
             int port = new PortSetup(logger).GetNextPort();
-            var server = new Server(logger, new ConnectionListener(logger), new ClientNodeFactory());
+            Server server = Bootstrapper.CreateServer();
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
@@ -81,7 +81,7 @@ namespace SimpleServer.Tests
         {
             // Given
             int port = new PortSetup(logger).GetNextPort();
-            var server = new Server(logger, new ConnectionListener(logger), new ClientNodeFactory());
+            Server server = Bootstrapper.CreateServer();
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
@@ -156,7 +156,7 @@ namespace SimpleServer.Tests
         {
             // Given
             int port = new PortSetup(logger).GetNextPort();
-            var server = new Server(logger, new ConnectionListener(logger), new ClientNodeFactory());
+            Server server = Bootstrapper.CreateServer();
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
