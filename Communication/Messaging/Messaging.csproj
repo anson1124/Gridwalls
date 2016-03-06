@@ -43,8 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BufferedReader.cs" />
+    <Compile Include="IMessageListener.cs" />
+    <Compile Include="IMessageListenerFactory.cs" />
     <Compile Include="MessageFactory.cs" />
     <Compile Include="MessageLengthReader.cs" />
+    <Compile Include="MessageListenerFactory.cs" />
     <Compile Include="MessageStreamReader.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="MessageListener.cs" />

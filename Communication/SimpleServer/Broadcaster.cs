@@ -5,7 +5,7 @@ using Messaging;
 
 namespace SimpleServer
 {
-    public class Broadcaster
+    public class Broadcaster : IBroadcaster
     {
         private readonly Logger logger;
 

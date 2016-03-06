@@ -1,10 +1,10 @@
 ﻿using Logging;
 using Messaging;
 
-namespace SimpleServer
+namespace Messaging
 {
     public interface IMessageListenerFactory
     {
-        MessageListener Create(Logger logger, string clientName);
+        IMessageListener Create(Logger logger, string clientName);
     }
 }

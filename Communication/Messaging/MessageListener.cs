@@ -3,7 +3,7 @@ using Logging;
 
 namespace Messaging
 {
-    public class MessageListener
+    public class MessageListener : IMessageListener
     {
         public event Action<string> OnMessageReceived;
         public event Action<Node> DoneListeningForMessages;

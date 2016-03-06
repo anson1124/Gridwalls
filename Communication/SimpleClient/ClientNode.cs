@@ -32,7 +32,7 @@ namespace SimpleServer
             tcpClient.Client.Send(bytes);
         }
 
-        public void Close()
+        public void Disconnect()
         {
             tcpClient.Close();
         }

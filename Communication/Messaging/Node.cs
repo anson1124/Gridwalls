@@ -3,7 +3,7 @@
     public interface Node
     {
         string Read();
-        void Close();
+        void Disconnect();
         void SendMessage(string msg);
     }
 }

@@ -72,7 +72,7 @@
     <Compile Include="ConnectionListenerTest.cs" />
     <Compile Include="IntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommunicatorTest.cs" />
+    <Compile Include="MessageDispatcherTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
