@@ -1,7 +1,7 @@
 ﻿using Logging;
-using SimpleServer;
+using SimpleClient;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public class ServerFactory
     {

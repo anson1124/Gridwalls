@@ -24,7 +24,7 @@ namespace TurnIncrementerMod
         public ModRunner()
         {
             logger = new FileLogger("../../../Logs/", "TurnncrementerMod_", "css");
-            client = new Client(logger);
+            client = ClientFactory.Create(logger);
             turnIncrementer = new TurnIncrementer(logger, client);
         }
 

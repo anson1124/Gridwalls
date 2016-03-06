@@ -19,13 +19,14 @@ namespace SkeletonMod
         public ModRunner()
         {
             logger = new FileLogger("../../../Logs/", "SkeletonMod_", "css");
-            client = new Client(logger);
+            client = ClientFactory.Create(logger);
         }
 
         public void ConnectToServer(string host, int port)
         {
             logger.Write<ModRunner>("Connecting to server...");
             client.OnConnected += onConnected;
+            client.OnMessageReceived += messageReceived;
             client.Connect(host, port);
             client.OnDisconnected += onDisconnected;
         }
@@ -33,6 +34,15 @@ namespace SkeletonMod
         private void onConnected()
         {
             client.SendMessage("Skeleton reporting!");
+        }
+
+        private DateTime last = DateTime.Now;
+
+        private void messageReceived(string msg)
+        {
+            TimeSpan duration = DateTime.Now - last;
+            last = DateTime.Now;
+            logger.Write<ModRunner>("Time since last message: " + duration);
         }
 
         private void onDisconnected()
@@ -44,7 +54,5 @@ namespace SkeletonMod
         {
             client.Disconnect();
         }
-
-        
     }
 }

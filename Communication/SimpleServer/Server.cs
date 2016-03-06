@@ -7,10 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Messaging;
-using SimpleServer;
+using SimpleClient;
 using SimpleTcpServer;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public class Server
     {

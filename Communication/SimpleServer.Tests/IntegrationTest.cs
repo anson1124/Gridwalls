@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
-using SimpleServer;
+using SimpleClient;
 using SimpleTcpServer;
 using TestTools;
 using Xunit;
 
-namespace SimpleServer.Tests
+namespace SimpleClient.Tests
 {
     public class IntegrationTest : IDisposable
     {

@@ -4,7 +4,7 @@ using SimpleTcpServer;
 using TestTools;
 using Xunit;
 
-namespace SimpleServer.Tests
+namespace SimpleClient.Tests
 {
     public class ConnectionListenerTest : IDisposable
     {

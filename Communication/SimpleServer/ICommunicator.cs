@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public interface ICommunicator
     {

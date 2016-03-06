@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public class TaskRunner
     {

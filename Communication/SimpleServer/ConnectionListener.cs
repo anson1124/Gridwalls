@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Logging;
 using SimpleTcpServer;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public class ConnectionListener : IConnectionListener
     {

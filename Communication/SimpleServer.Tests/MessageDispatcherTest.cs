@@ -3,11 +3,11 @@ using System.Net.Sockets;
 using Logging;
 using Messaging;
 using Moq;
-using SimpleServer;
+using SimpleClient;
 using TestTools;
 using Xunit;
 
-namespace SimpleServer.Tests
+namespace SimpleClient.Tests
 {
     public class MessageDispatcherTest
     {

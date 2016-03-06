@@ -1,7 +1,7 @@
 ﻿using System.Net.Sockets;
 using Logging;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public interface IClientNodeFactory
     {

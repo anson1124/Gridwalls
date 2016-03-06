@@ -3,7 +3,7 @@ using System.Linq;
 using Logging;
 using Messaging;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public class Broadcaster : IBroadcaster
     {

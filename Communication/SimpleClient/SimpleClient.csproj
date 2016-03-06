@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="ClientFactory.cs" />
     <Compile Include="ClientNode.cs" />
     <Compile Include="ClientNodeFactory.cs" />
     <Compile Include="IClientNodeFactory.cs" />

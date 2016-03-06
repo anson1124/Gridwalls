@@ -1,7 +1,7 @@
 ﻿using Logging;
 using TestTools;
 
-namespace SimpleServer.Tests
+namespace SimpleClient.Tests
 {
     public class Bootstrapper
     {

@@ -5,9 +5,9 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using Logging;
 using Messaging;
-using SimpleServer;
+using SimpleClient;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public class Communicator : ICommunicator
     {

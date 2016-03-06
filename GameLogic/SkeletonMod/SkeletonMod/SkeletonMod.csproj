@@ -36,7 +36,8 @@
     <Reference Include="ModWrapper">
       <HintPath>..\..\ModWrapper\ModWrapper\bin\Debug\ModWrapper.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleClient">
+    <Reference Include="SimpleClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Communication\SimpleClient\bin\Debug\SimpleClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />

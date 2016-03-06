@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Messaging;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public interface IBroadcaster
     {

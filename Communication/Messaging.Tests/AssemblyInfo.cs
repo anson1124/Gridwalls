@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xunit;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
-namespace SimpleServer.Tests
+namespace SimpleClient.Tests
 {
     class AssemblyInfo
     {

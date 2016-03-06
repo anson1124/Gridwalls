@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Logging;
 using Messaging;
 
-namespace SimpleServer
+namespace SimpleClient
 {
     public class MessageDispatcher
     {
