@@ -11,8 +11,6 @@ namespace GameServerConsole
 {
     class ServerLauncher
     {
-        private Launcher launcher;
-
         static void Main(string[] args)
         {
             new ServerLauncher().Run();

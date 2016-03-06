@@ -8,33 +8,33 @@ namespace SimpleClient
 {
     public class ClientNode : Node
     {
-        private readonly TcpClient _tcpClient;
-        private MessageStreamReader _messageStreamReader;
-        private readonly Logger _logger;
+        private readonly TcpClient tcpClient;
+        private MessageStreamReader messageStreamReader;
+        private readonly Logger logger;
 
         public ClientNode(Logger logger, TcpClient tcpClient)
         {
-            _logger = logger;
-            _tcpClient = tcpClient;
+            this.logger = logger;
+            this.tcpClient = tcpClient;
         }
 
         public string Read()
         {
-            _messageStreamReader = new MessageStreamReader(_logger, _tcpClient.GetStream());
-            return _messageStreamReader.Read();
+            messageStreamReader = new MessageStreamReader(logger, tcpClient.GetStream());
+            return messageStreamReader.Read();
         }
 
         public void SendMessage(string msg)
         {
             msg = MessageFactory.CreateMessage(msg);
-            _logger.Write<ClientNode>($"Sending message: {msg}");
+            logger.Write<ClientNode>($"Sending message: {msg}");
             byte[] bytes = Encoding.UTF8.GetBytes(msg);
-            _tcpClient.Client.Send(bytes);
+            tcpClient.Client.Send(bytes);
         }
 
         public void Close()
         {
-            _tcpClient.Close();
+            tcpClient.Close();
         }
     }
 }

@@ -7,12 +7,12 @@ namespace Messaging
 {
     public class MessageLengthReader
     {
-        private readonly Logger _logger;
-        private readonly Decoder _utf8Decoder = Encoding.UTF8.GetDecoder();
+        private readonly Logger logger;
+        private readonly Decoder utf8Decoder = Encoding.UTF8.GetDecoder();
 
         public MessageLengthReader(Logger logger)
         {
-            _logger = logger;
+            this.logger = logger;
         }
 
         public int GetNextMessageLength(Stream stream)
@@ -22,25 +22,25 @@ namespace Messaging
 
             while (true)
             {
-                _logger.Write<MessageLengthReader>("GetNextMessageLength, loop: Reading byte...");
+                logger.Write<MessageLengthReader>(InfoLevel.Trace, "GetNextMessageLength, loop: Reading byte...");
                 int byteAsInt = stream.ReadByte();
-                _logger.Write<MessageLengthReader>("GetNextMessageLength, loop: Reading byte... done! Got byte: " + byteAsInt);
+                logger.Write<MessageLengthReader>(InfoLevel.Trace, "GetNextMessageLength, loop: Reading byte... done! Got byte: " + byteAsInt);
 
                 if (byteAsInt == -1)
                 {
-                    _logger.Write<MessageLengthReader>("Byte was -1, returning 0.");
+                    logger.Write<MessageLengthReader>(InfoLevel.Trace, "Byte was -1, returning 0.");
                     return 0;
                 }
 
                 if (!isNumerical(byteAsInt))
                 {
-                    _logger.Write<MessageLengthReader>("Not numerical byte, exiting while loop.");
+                    logger.Write<MessageLengthReader>(InfoLevel.Trace, "Not numerical byte, exiting while loop.");
                     break;
                 }
-                _utf8Decoder.GetChars(new[] { (byte)byteAsInt }, 0, 1, nextChar, 0);
+                utf8Decoder.GetChars(new[] { (byte)byteAsInt }, 0, 1, nextChar, 0);
                 messageLength.Append(nextChar);
             }
-            _logger.Write<MessageLengthReader>($"Returning message length: {messageLength}");
+            logger.Write<MessageLengthReader>(InfoLevel.Trace, $"Returning message length: {messageLength}");
 
             return Int32.Parse(messageLength.ToString());
         }

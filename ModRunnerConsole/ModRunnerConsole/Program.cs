@@ -23,10 +23,19 @@ namespace ModRunnerConsole
             skeletonMod.ConnectToServer(Host, Port);
             Console.WriteLine("SkeletonMod connected.");
 
+            Console.WriteLine("Running TurnIncrementerMod...");
+            Mod turnIncrementerMod = new TurnIncrementerMod.ModRunner();
+            turnIncrementerMod.OnDisconnect += onDisconnect;
+            turnIncrementerMod.ConnectToServer(Host, Port);
+            Console.WriteLine("TurnIncrementerMod connected.");
+
             exitWhenUserPressesEscape();
 
             Console.WriteLine("Disconnecting SkeletonMod...");
             skeletonMod.Disconnect();
+            Console.WriteLine("Disconnecting TurnIncrementerMod...");
+            turnIncrementerMod.Disconnect();
+
             Console.WriteLine("Quitting.");
         }
 

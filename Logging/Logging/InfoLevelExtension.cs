@@ -1,10 +1,13 @@
-﻿namespace Logging
+﻿using System;
+
+namespace Logging
 {
     internal static class InfoLevelExtension
     {
         public static string Shortversion(this InfoLevel infoLevel)
         {
-            return $"{infoLevel.ToString().Substring(0, 4).ToUpper().PadRight(5)}";
+            int maxSubstringLength = Math.Min(infoLevel.ToString().Length, 5);
+            return $"{infoLevel.ToString().Substring(0, maxSubstringLength).ToUpper().PadRight(5)}";
         }
     }
 }

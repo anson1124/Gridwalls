@@ -5,9 +5,12 @@ namespace Logging
 {
     public class FileLogger : Logger
     {
-        private readonly StreamWriter _logStreamWriter;
-        private readonly LogFactory _logFactory;
-        private readonly object _logLock = new object();
+        public InfoLevel MinimumInfoLevelBeforeWrite { set; get; }
+        public string LogFilename { get; }
+
+        private readonly StreamWriter logStreamWriter;
+        private readonly LogLineFactory logLineFactory;
+        private readonly object logLock = new object();
 
         public FileLogger() : this("./")
         {
@@ -19,33 +22,40 @@ namespace Logging
 
         public FileLogger(string path, string filenamePrefix, string filenameExtension)
         {
-            string logFilename = path + $"{filenamePrefix}{Path.GetRandomFileName()}.{filenameExtension}";
-            _logStreamWriter = new StreamWriter(logFilename);
-            _logFactory = new LogFactory();
-        }
+            LogFilename = path + $"{filenamePrefix}{Path.GetRandomFileName()}.{filenameExtension}";
+            logStreamWriter = new StreamWriter(LogFilename);
+            logLineFactory = new LogLineFactory();
 
-        public void Write(string text)
-        {
-            lock (_logLock)
-            {
-                _logStreamWriter.WriteLine(_logFactory.Log(text));
-                _logStreamWriter.Flush();
-            }
+            MinimumInfoLevelBeforeWrite = InfoLevel.Info;
         }
 
         public void Write<T>(string text)
         {
-            Write(_logFactory.Log<T>(text));
+            writeText<T>(InfoLevel.Info, text);
+        }
+
+        private void writeText<T>(InfoLevel infoLevel, string text)
+        {
+            if (infoLevel < MinimumInfoLevelBeforeWrite)
+            {
+                return;
+            }
+
+            lock (logLock)
+            {
+                logStreamWriter.WriteLine(logLineFactory.Log<T>(infoLevel, text));
+                logStreamWriter.Flush();
+            }
         }
 
         public void Write<T>(InfoLevel infolevel, string text)
         {
-            Write(_logFactory.Log<T>(infolevel, text));
+            writeText<T>(infolevel, text);
         }
 
         public void Dispose()
         {
-            _logStreamWriter.Dispose();
+            logStreamWriter.Dispose();
         }
     }
 }

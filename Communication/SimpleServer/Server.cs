@@ -50,6 +50,7 @@ namespace SimpleServer
         {
             var messageListener = new MessageListener(logger, "Server-client " + Guid.NewGuid().ToString().Substring(0, 5));
             messageListener.OnMessageReceived += (msg) => broadcastMessageToAllOtherClients(client, msg);
+            messageListener.DoneListeningForMessages = ...
             Task.Run(() => { messageListener.ListenForMessages(client); });
         }
 

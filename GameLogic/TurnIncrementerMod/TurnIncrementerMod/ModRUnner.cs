@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Logging;
 using ModWrapper;
 using SimpleClient;
 
-namespace SkeletonMod
+namespace TurnIncrementerMod
 {
     public class ModRunner : Mod
     {
@@ -15,11 +19,13 @@ namespace SkeletonMod
 
         private readonly Client client;
         private readonly Logger logger;
+        private readonly TurnIncrementer turnIncrementer;
 
         public ModRunner()
         {
-            logger = new FileLogger("../../../Logs/", "SkeletonMod_", "css");
+            logger = new FileLogger("../../../Logs/", "TurnncrementerMod_", "css");
             client = new Client(logger);
+            turnIncrementer = new TurnIncrementer(logger, client);
         }
 
         public void ConnectToServer(string host, int port)
@@ -29,10 +35,9 @@ namespace SkeletonMod
             client.Connect(host, port);
             client.OnDisconnected += onDisconnected;
         }
-
         private void onConnected()
         {
-            client.SendMessage("Skeleton reporting!");
+            turnIncrementer.StartSendingEvents();
         }
 
         private void onDisconnected()
@@ -42,9 +47,10 @@ namespace SkeletonMod
 
         public void Disconnect()
         {
+            turnIncrementer.StopSendingEvents();
             client.Disconnect();
         }
 
-        
+
     }
 }

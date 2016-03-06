@@ -4,26 +4,33 @@ namespace Logging
 {
     public class ConsoleLogger : Logger
     {
-        private readonly LogFactory _logFactory;
+        public InfoLevel MinimumInfoLevelBeforeWrite { get; set; }
+        private readonly LogLineFactory logLineFactory;
 
         public ConsoleLogger()
         {
-            _logFactory = new LogFactory();
-        }
-
-        public void Write(string text)
-        {
-            Console.WriteLine(_logFactory.Log(text));
+            logLineFactory = new LogLineFactory();
+            MinimumInfoLevelBeforeWrite = InfoLevel.Info;
         }
 
         public void Write<T>(string text)
         {
-            Write(_logFactory.Log<T>(text));
+            writeText<T>(InfoLevel.Info, text);
+        }
+
+        private void writeText<T>(InfoLevel infoLevel, string text)
+        {
+            if (infoLevel < MinimumInfoLevelBeforeWrite)
+            {
+                return;
+            }
+
+            Console.WriteLine(logLineFactory.Log<T>(infoLevel, text));
         }
 
         public void Write<T>(InfoLevel infolevel, string text)
         {
-            Write(_logFactory.Log<T>(infolevel, text));
+            writeText<T>(infolevel, text);
         }
 
         public void Dispose()

@@ -23,7 +23,7 @@ namespace Messaging
 
         public string ReadNextBytes(int messageLength)
         {
-            _logger.Write<BufferedReader>($"Read message, message length={messageLength}");
+            _logger.Write<BufferedReader>(InfoLevel.Trace, $"Read message, message length={messageLength}");
             _msgBuilder = new StringBuilder();
 
             int bytesLeft = messageLength;
@@ -31,7 +31,7 @@ namespace Messaging
             do
             {
                 int bytesToRead = Math.Min(_buffer.Length, bytesLeft);
-                _logger.Write<BufferedReader>($"Read from buffer, offset={bufferOffset}, bytesToRead={bytesToRead}");
+                _logger.Write<BufferedReader>(InfoLevel.Trace, $"Read from buffer, offset={bufferOffset}, bytesToRead={bytesToRead}");
 
                 doRead(bufferOffset, bytesToRead);
 
@@ -56,7 +56,7 @@ namespace Messaging
         private void appendFromBufferToMessage(int bufferOffset, int bytesToRead)
         {
             String msgPart = Encoding.UTF8.GetString(_buffer, bufferOffset, bytesToRead);
-            _logger.Write<BufferedReader>($"Appending to message: {msgPart}");
+            _logger.Write<BufferedReader>(InfoLevel.Trace, $"Appending to message: {msgPart}");
             _msgBuilder.Append(msgPart);
         }
     }
