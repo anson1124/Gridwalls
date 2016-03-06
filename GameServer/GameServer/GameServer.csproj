@@ -33,6 +33,10 @@
     <Reference Include="Logging">
       <HintPath>..\..\Logging\Logging\bin\Debug\Logging.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Communication\SimpleClient\bin\Debug\SimpleClient.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleServer">
       <HintPath>..\..\Communication\SimpleServer\bin\Debug\SimpleServer.dll</HintPath>
     </Reference>

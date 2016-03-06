@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="ClientNode.cs" />
+    <Compile Include="ClientNodeFactory.cs" />
+    <Compile Include="IClientNodeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

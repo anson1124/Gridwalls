@@ -19,7 +19,7 @@ namespace GameServerConsole
         private void Run()
         {
             Logger logger = new FileLogger("../../../Logs/", "GameServer_", "css");
-            Launcher launcher = new Launcher(logger);
+            var launcher = new Launcher(logger);
             launcher.ClientConnected += onClientConnected;
             launcher.Host(22050);
             runGameOnConnectOrContinueIfUserPressesEscape();

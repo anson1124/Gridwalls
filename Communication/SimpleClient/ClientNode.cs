@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System;
+using System.Net.Sockets;
 using System.Text;
 using Logging;
 using Messaging;
@@ -11,11 +12,13 @@ namespace SimpleServer
         private readonly TcpClient tcpClient;
         private MessageStreamReader messageStreamReader;
         private readonly Logger logger;
+        private readonly string name;
 
-        public ClientNode(Logger logger, TcpClient tcpClient)
+        public ClientNode(Logger logger, TcpClient tcpClient, String name)
         {
             this.logger = logger;
             this.tcpClient = tcpClient;
+            this.name = name;
         }
 
         public string Read()
@@ -35,6 +38,11 @@ namespace SimpleServer
         public void Disconnect()
         {
             tcpClient.Close();
+        }
+
+        public override string ToString()
+        {
+            return $"(Client name={name})";
         }
     }
 }

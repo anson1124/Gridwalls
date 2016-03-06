@@ -37,11 +37,10 @@ namespace SimpleServer
 
         private void throwErrorIfAlreadyListening()
         {
-            logger.Write<ConnectionListener>(
-                $"ListenForConnectionsInANewThread. _hasStartedListeningInANewThread = {hasStartedListeningInANewThread}");
+            logger.Write<ConnectionListener>(InfoLevel.Trace, $"ListenForConnectionsInANewThread. _hasStartedListeningInANewThread = {hasStartedListeningInANewThread}");
             if (hasStartedListeningInANewThread)
             {
-                logger.Write<ConnectionListener>("Throwing exception.");
+                logger.Write<ConnectionListener>(InfoLevel.Error, "Throwing exception.");
                 throw new InvalidOperationException(
                     "Already started listening for connections. Stop listening before starting again.");
             }
@@ -119,7 +118,7 @@ namespace SimpleServer
 
         public void StopListening()
         {
-            logger.Write<ConnectionListener>($"Aborting listening. " +
+            logger.Write<ConnectionListener>(InfoLevel.Trace, $"Aborting listening. " +
                                                       $"_hasStartedListeningInANewThread={hasStartedListeningInANewThread} " +
                                                       $"_hasStartedListening={hasStartedListening}");
             if (!hasStartedListeningInANewThread)

@@ -5,6 +5,6 @@ namespace Messaging
 {
     public interface IMessageListenerFactory
     {
-        IMessageListener Create(Logger logger, string clientName);
+        IMessageListener Create(Logger logger);
     }
 }

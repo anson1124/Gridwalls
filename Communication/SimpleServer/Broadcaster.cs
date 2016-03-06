@@ -17,10 +17,11 @@ namespace SimpleServer
         public void BroadcastMessageToAllClientsExceptSource(List<Node> clients, Node source, string msg)
         {
             var theClientThatTheMessageCameFrom = new List<Node> {source};
+            var clientsToBroadcastTo = clients.Except(theClientThatTheMessageCameFrom);
 
-            foreach (var clientNode in clients.Except(theClientThatTheMessageCameFrom))
+            logger.Write<Broadcaster>($"Broadcasting message from {source} to {clientsToBroadcastTo.Count()} clients: {msg}");
+            foreach (var clientNode in clientsToBroadcastTo)
             {
-                logger.Write<Broadcaster>($"Broadcasting message to client: {msg}");
                 clientNode.SendMessage(msg);
             }
         }

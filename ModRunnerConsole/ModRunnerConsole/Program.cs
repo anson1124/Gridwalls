@@ -17,11 +17,11 @@ namespace ModRunnerConsole
         {
             Console.WriteLine("Running mods...");
 
-            //Console.WriteLine("Running SkeletonMod...");
-            //Mod skeletonMod = new SkeletonMod.ModRunner();
-            //skeletonMod.OnDisconnect += onDisconnect;
-            //skeletonMod.ConnectToServer(Host, Port);
-            //Console.WriteLine("SkeletonMod connected.");
+            Console.WriteLine("Running SkeletonMod...");
+            Mod skeletonMod = new SkeletonMod.ModRunner();
+            skeletonMod.OnDisconnect += onDisconnect;
+            skeletonMod.ConnectToServer(Host, Port);
+            Console.WriteLine("SkeletonMod connected.");
 
             Console.WriteLine("Running TurnIncrementerMod...");
             Mod turnIncrementerMod = new TurnIncrementerMod.ModRunner();
@@ -31,8 +31,9 @@ namespace ModRunnerConsole
 
             exitWhenUserPressesEscape();
 
-            //Console.WriteLine("Disconnecting SkeletonMod...");
-            //skeletonMod.Disconnect();
+            Console.WriteLine("Disconnecting SkeletonMod...");
+            skeletonMod.Disconnect();
+
             Console.WriteLine("Disconnecting TurnIncrementerMod...");
             turnIncrementerMod.Disconnect();
 

@@ -5,9 +5,9 @@ namespace SimpleServer
 {
     public class MessageListenerFactory : IMessageListenerFactory
     {
-        public IMessageListener Create(Logger logger, string clientName)
+        public IMessageListener Create(Logger logger)
         {
-            return new MessageListener(logger, clientName);
+            return new MessageListener(logger);
         }
     }
 }

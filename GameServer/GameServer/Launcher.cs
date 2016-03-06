@@ -22,7 +22,7 @@ namespace GameServer
 
         public void Host(int port)
         {
-            server = new Server(logger);
+            server = ServerFactory.CreateServer(logger);
             server.ListenForConnectionsInANewThread(port);
             server.OnClientConnected += () => ClientConnected?.Invoke();
         }

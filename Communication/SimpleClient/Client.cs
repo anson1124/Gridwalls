@@ -18,15 +18,18 @@ namespace SimpleServer
 
         public event Action OnDisconnected;
 
+        private readonly IClientNodeFactory clientNodeFactory;
+
         private TcpClient tcpClient;
         private readonly MessageListener messageListener;
         private Node server;
         private readonly Logger logger;
 
-        public Client(Logger logger)
+        public Client(Logger logger, IClientNodeFactory clientNodeFactory)
         {
             this.logger = logger;
-            messageListener = new MessageListener(this.logger, "Client " + Guid.NewGuid().ToString().Substring(1, 5));
+            this.clientNodeFactory = clientNodeFactory;
+            messageListener = new MessageListener(this.logger);
         }
 
         public void Connect(string host, int port)
@@ -50,7 +53,7 @@ namespace SimpleServer
 
         private void startListeningForMessagesInANewThread()
         {
-            server = new ClientNode(logger, tcpClient);
+            server = clientNodeFactory.Create(logger, tcpClient);
             logger.Write<Client>("Starting listening for messages in a new thread...");
             Task listenForMessagesTask = new Task(() =>
             {

@@ -39,14 +39,14 @@ namespace SimpleServer.Tests
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
-            var client1 = new Client(logger);
+            var client1 = Bootstrapper.CreateClient(logger);
             AutoResetEvent client1Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client1Connected.Set();
             client1.Connect(Localhost, port);
             client1Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 1 never connected");
 
             logger.Write<IntegrationTest>("Connecting client 2");
-            var client2 = new Client(logger);
+            var client2 = Bootstrapper.CreateClient(logger);
             AutoResetEvent client2Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client2Connected.Set();
             client2.Connect(Localhost, port);
@@ -85,28 +85,28 @@ namespace SimpleServer.Tests
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
-            var client1 = new Client(logger);
+            var client1 = Bootstrapper.CreateClient(logger);
             AutoResetEvent client1Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client1Connected.Set();
             client1.Connect(Localhost, port);
             client1Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 1 never connected");
 
             logger.Write<IntegrationTest>("Connecting client 2");
-            var client2 = new Client(logger);
+            var client2 = Bootstrapper.CreateClient(logger);
             AutoResetEvent client2Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client2Connected.Set();
             client2.Connect(Localhost, port);
             client2Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 2 never connected");
 
             logger.Write<IntegrationTest>("Connecting client 3");
-            var client3 = new Client(logger);
+            var client3 = Bootstrapper.CreateClient(logger);
             AutoResetEvent client3Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client3Connected.Set();
             client3.Connect(Localhost, port);
             client3Connected.WaitAndThrowErrorIfNoSignalIsSet(DefaultWaitTIme, "Client 3 never connected");
 
             logger.Write<IntegrationTest>("Connecting client 2");
-            var client4 = new Client(logger);
+            var client4 = Bootstrapper.CreateClient(logger);
             AutoResetEvent client4Connected = new AutoResetEvent(false);
             server.OnClientConnected += () => client4Connected.Set();
             client4.Connect(Localhost, port);
@@ -160,7 +160,7 @@ namespace SimpleServer.Tests
             server.ListenForConnectionsInANewThread(port);
 
             logger.Write<IntegrationTest>("Connecting client 1");
-            var client1 = new Client(logger);
+            var client1 = Bootstrapper.CreateClient(logger);
             bool disconnected = false;
             client1.OnDisconnected += () =>
             {

@@ -15,32 +15,37 @@ namespace SimpleServer
         private readonly IClientNodeFactory clientNodeFactory;
         private readonly MessageDispatcher messageDispatcher;
 
-        private readonly List<Node> clientNodes = new List<Node>();
+        private readonly List<Node> clients = new List<Node>();
 
         public Communicator(Logger logger, IClientNodeFactory clientNodeFactory, MessageDispatcher messageDispatcher)
         {
             this.logger = logger;
             this.clientNodeFactory = clientNodeFactory;
             this.messageDispatcher = messageDispatcher;
+            messageDispatcher.OnDisconnectFromClient += clientDisconnected;
         }
 
         public void SetupCommunicationWith(TcpClient tcpClient)
         {
             Node client = clientNodeFactory.Create(logger, tcpClient);
 
-            clientNodes.Add(client);
-            messageDispatcher.Add(client);
-
+            clients.Add(client);
             messageDispatcher.SetUpCommunicationWith(client);
         }
 
         public void CloseConnectionToAllClients()
         {
-            foreach (Node node in clientNodes)
+            foreach (Node client in clients)
             {
-                logger.Write<Communicator>("Closing connection to client.");
-                node.Disconnect();
+                logger.Write<Communicator>($"Closing connection to client ${client}.");
+                client.Disconnect();
             }
+        }
+
+        private void clientDisconnected(Node client)
+        {
+            clients.Remove(client);
+            logger.Write<Communicator>($"Client {client} disconnected.");
         }
     }
 }

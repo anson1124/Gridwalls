@@ -5,13 +5,22 @@ namespace SimpleServer.Tests
 {
     public class Bootstrapper
     {
+        private static readonly IClientNodeFactory clientNodeFactory;
+
+        static Bootstrapper()
+        {
+            clientNodeFactory = new ClientNodeFactory();
+        }
+
         static internal Server CreateServer()
         {
             Logger logger = LogSetup.CreateLogger();
-            var messageDispatcher = new MessageDispatcher(logger, new MessageListenerFactory(), new Broadcaster(logger), new TaskRunner());
-            ICommunicator communicator = new Communicator(logger, new ClientNodeFactory(), messageDispatcher);
+            return ServerFactory.CreateServer(logger);
+        }
 
-            return new Server(logger, new ConnectionListener(logger), communicator);
+        static internal Client CreateClient(Logger logger)
+        {
+            return new Client(logger, clientNodeFactory);
         }
     }
 }

@@ -7,12 +7,14 @@ namespace SimpleServer
 {
     public class MessageDispatcher
     {
+        public event Action<Node> OnDisconnectFromClient;
+
         private readonly Logger logger;
         private readonly IMessageListenerFactory messageListenerFactory;
         private readonly IBroadcaster broadcaster;
         private readonly TaskRunner taskRunner;
 
-        private readonly List<Node> clientNodes = new List<Node>();
+        private readonly List<Node> clients = new List<Node>();
 
         public MessageDispatcher(Logger logger, IMessageListenerFactory messageListenerFactory, IBroadcaster broadcaster, TaskRunner taskRunner)
         {
@@ -22,28 +24,22 @@ namespace SimpleServer
             this.taskRunner = taskRunner;
         }
 
-        public void Add(Node client)
-        {
-            clientNodes.Add(client);
-        }
-
         public void SetUpCommunicationWith(Node client)
         {
-            IMessageListener messageListener = messageListenerFactory.Create(logger, createClientName());
-            messageListener.OnMessageReceived += (msg) => broadcaster.BroadcastMessageToAllClientsExceptSource(new List<Node>(clientNodes), client, msg);
+            clients.Add(client);
+
+            IMessageListener messageListener = messageListenerFactory.Create(logger);
+            messageListener.OnMessageReceived += (msg) => broadcaster.BroadcastMessageToAllClientsExceptSource(new List<Node>(clients), client, msg);
             messageListener.DoneListeningForMessages += onDisconnectFromClient;
 
             taskRunner.Run(() => messageListener.ListenForMessages(client));
         }
 
-        private string createClientName()
-        {
-            return "Server-client " + Guid.NewGuid().ToString().Substring(0, 5);
-        }
-
         private void onDisconnectFromClient(Node client)
         {
             client.Disconnect();
+            clients.Remove(client);
+            OnDisconnectFromClient?.Invoke(client);
         }
     }
 }

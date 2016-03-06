@@ -19,7 +19,7 @@ namespace SimpleServer.Tests
 
             var messageListenerFactory = new Mock<IMessageListenerFactory>();
             var messageListener = new Mock<IMessageListener>();
-            messageListenerFactory.Setup(m => m.Create(It.IsAny<Logger>(), It.IsAny<string>())).Returns(messageListener.Object);
+            messageListenerFactory.Setup(m => m.Create(It.IsAny<Logger>())).Returns(messageListener.Object);
 
             var broadcaster = new Mock<IBroadcaster>();
             var taskRunner = new Mock<TaskRunner>();
@@ -27,7 +27,6 @@ namespace SimpleServer.Tests
 
             var client = new Mock<Node>();
 
-            messageDispatcher.Add(client.Object);
             messageDispatcher.SetUpCommunicationWith(client.Object);
 
             // When
