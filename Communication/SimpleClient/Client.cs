@@ -10,33 +10,31 @@ namespace SimpleClient
     public class Client
     {
         public event Action OnConnected;
-        public event Action<String> OnMessageReceived
-        {
-            add { messageListener.OnMessageReceived += value; }
-            remove { messageListener.OnMessageReceived -= value; }
-        }
+        public event Action<string> OnMessageReceived;
 
+        public event Action<string> OnSubscribed;
         public event Action OnDisconnected;
 
         private readonly IClientNodeFactory clientNodeFactory;
 
         private TcpClient tcpClient;
-        private readonly MessageListener messageListener;
-        private Node server;
+        private MessageListener messageListener;
+        private Node serverNode;
         private readonly Logger logger;
 
         public Client(Logger logger, IClientNodeFactory clientNodeFactory)
         {
             this.logger = logger;
             this.clientNodeFactory = clientNodeFactory;
-            messageListener = new MessageListener(this.logger);
         }
 
         public void Connect(string host, int port)
         {
+            messageListener = new MessageListener(this.logger);
             messageListener.DoneListeningForMessages += disconnectedFromServer;
 
             tcpClient = new TcpClient();
+            //tcpClient.NoDelay = true;
             logger.Write<Client>("Connecting...");
             tcpClient.Connect(host, port);
             logger.Write<Client>("Connected");
@@ -53,24 +51,46 @@ namespace SimpleClient
 
         private void startListeningForMessagesInANewThread()
         {
-            server = clientNodeFactory.Create(logger, tcpClient);
+            messageListener.OnMessageReceived += onMessageReceived;
+
+            serverNode = clientNodeFactory.Create(logger, tcpClient);
             logger.Write<Client>("Starting listening for messages in a new thread...");
-            Task listenForMessagesTask = new Task(() =>
+            Task.Factory.StartNew(() =>
             {
-                messageListener.ListenForMessages(server);
+                messageListener.ListenForMessages(serverNode);
             });
-            listenForMessagesTask.Start();
             logger.Write<Client>("Starting listening for messages in a new thread... started");
+        }
+
+        private void onMessageReceived(string msg)
+        {
+            if (msg.StartsWith(SubscribedEvent.Name))
+            {
+                SubscribedEvent subscribedEvent = SubscribedEvent.Deserialize(msg);
+                logger.Write<Client>("I am now subscribed to " + subscribedEvent.Tag);
+                OnSubscribed?.Invoke(subscribedEvent.Tag);
+            }
+            else
+            {
+                OnMessageReceived?.Invoke(msg);
+            }
         }
 
         public void SendMessage(string msg)
         {
-            server.SendMessage(msg);
+            serverNode.SendMessage(msg);
         }
 
         public void Disconnect()
         {
+            logger.Write<Client>("Disconnecting from server.");
             tcpClient.Close();
+        }
+
+        public void SubscribeTo(string tag)
+        {
+            logger.Write<Client>($"Sending message to server that I want to subscribe to tag {tag}.");
+            serverNode.SendMessage(new SubscribeEvent(tag).Serialize());
         }
     }
 }

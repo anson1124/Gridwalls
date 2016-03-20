@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SimpleTcpServer
+namespace SimpleServer
 {
     public static class AutoResetEventExtensions
     {

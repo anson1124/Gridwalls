@@ -44,10 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoResetEventExtensions.cs" />
-    <Compile Include="Broadcaster.cs" />
-    <Compile Include="IBroadCaster.cs" />
     <Compile Include="MessageDispatcher.cs" />
-    <Compile Include="Communicator.cs" />
+    <Compile Include="IMessageDispatcher.cs" />
+    <Compile Include="ClientCommunicationInitializer.cs" />
+    <Compile Include="AllClientsCommunicator.cs" />
     <Compile Include="ConnectionListener.cs" />
     <Compile Include="ICommunicator.cs" />
     <Compile Include="IConnectionListener.cs" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 namespace Logging
@@ -7,7 +8,7 @@ namespace Logging
     {
         public string Log<T>(InfoLevel infolevel, string text)
         {
-            return $"[{infolevel.Shortversion()}] [{typeof(T).Name}] {text}";
+            return $"[{DateTime.Now.ToString("HH:mm:ss.fff", CultureInfo.InvariantCulture)}] [{infolevel.Shortversion()}] [{typeof(T).Name}] {text}";
         }
     }
 }

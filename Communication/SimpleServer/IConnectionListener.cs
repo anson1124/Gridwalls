@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace SimpleClient
+namespace SimpleServer
 {
     public interface IConnectionListener
     {

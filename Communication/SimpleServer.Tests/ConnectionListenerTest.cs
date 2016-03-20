@@ -1,10 +1,9 @@
 ﻿using System;
 using Logging;
-using SimpleTcpServer;
 using TestTools;
 using Xunit;
 
-namespace SimpleClient.Tests
+namespace SimpleServer.Tests
 {
     public class ConnectionListenerTest : IDisposable
     {

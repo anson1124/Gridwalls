@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Logging;
 using Xunit;
@@ -21,7 +22,7 @@ namespace Tests
             logger.Write<IntegrationTest>("Hey");
 
             // Then
-            var fileContents = ReadAndDeleteLog(logger);
+            string fileContents = ReadAndDeleteLog(logger);
             Assert.Equal("[INFO ] [IntegrationTest] Hey", fileContents);
         }
 
@@ -44,7 +45,12 @@ namespace Tests
             logger.Dispose();
             String fileContents = File.ReadAllText(logger.LogFilename).Trim();
             File.Delete(logger.LogFilename);
-            return fileContents;
+            return stripTimestamp(fileContents);
+        }
+
+        private static string stripTimestamp(string input)
+        {
+            return Regex.Match(input, @"\[[0-9\:\.]+\] (.*)").Groups[1].Value;
         }
 
         [Fact]

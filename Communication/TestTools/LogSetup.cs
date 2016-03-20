@@ -5,13 +5,18 @@ namespace TestTools
 {
     public class LogSetup
     {
-        private const String Path = "../../../Logs/";
-        private const String FilenamePrefix = "testLog_";
-        private const String FilenameExtension = "css";
+        private const string Path = "../../../Logs/";
+        private const string DefaultFilenamePrefix = "testLog_";
+        private const string FilenameExtension = "css";
 
         public static Logger CreateLogger()
         {
-            Logger logger = new FileLogger(Path, FilenamePrefix, FilenameExtension);
+            return CreateLogger(DefaultFilenamePrefix);
+        }
+
+        public static Logger CreateLogger(string filenameprefix)
+        {
+            Logger logger = new FileLogger(Path, filenameprefix, FilenameExtension);
             logger.Write<LogSetup>("Log created.");
             return logger;
         }

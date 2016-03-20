@@ -1,7 +1,8 @@
 ﻿using Logging;
+using SimpleClient;
 using TestTools;
 
-namespace SimpleClient.Tests
+namespace SimpleServer.Tests
 {
     public class Bootstrapper
     {
@@ -15,6 +16,11 @@ namespace SimpleClient.Tests
         static internal Server CreateServer()
         {
             Logger logger = LogSetup.CreateLogger();
+            return ServerFactory.CreateServer(logger);
+        }
+
+        static internal Server CreateServer(Logger logger)
+        {
             return ServerFactory.CreateServer(logger);
         }
 

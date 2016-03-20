@@ -5,16 +5,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D1AF50AE-76BA-45F0-86DA-AD9D59AE2F46}</ProjectGuid>
+    <ProjectGuid>{E1E924CE-B38F-49BD-AAB9-5F111B1B73C4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleServer.Tests</RootNamespace>
-    <AssemblyName>SimpleServer.Tests</AssemblyName>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,11 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Logging">
-      <HintPath>..\..\Logging\Logging\bin\Debug\Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\Logging\Logging\bin\Debug\Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -67,37 +62,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ClientCommunicationInitializerTest.cs" />
-    <Compile Include="ConnectionListenerTest.cs" />
-    <Compile Include="IntegrationTest.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MessageDispatcherTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\PerfomanceTestMod\PerfomanceTestMod.csproj">
+      <Project>{8223dc02-2c1a-4510-a4a2-0252e8c582f5}</Project>
+      <Name>PerfomanceTestMod</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Messaging\Messaging.csproj">
-      <Project>{56C5E172-5782-424C-BC4B-7C4F022C8209}</Project>
-      <Name>Messaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleClient\SimpleClient.csproj">
-      <Project>{7cc6771c-c199-49b0-bb96-2da674cbd000}</Project>
-      <Name>SimpleClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleServer\SimpleServer.csproj">
-      <Project>{0fcabb97-79f4-45cc-b0b7-e2fb3c499113}</Project>
-      <Name>SimpleServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestTools\TestCommon.csproj">
-      <Project>{E0CCD269-F672-4468-A109-7B2F762E8154}</Project>
-      <Name>TestCommon</Name>
-    </ProjectReference>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -20,7 +20,7 @@ namespace Messaging
             {
                 logger.Write<MessageListener>(InfoLevel.Trace, "ReadLoop: Waiting for message.");
                 String msgReceived = node.Read();
-                logger.Write<MessageListener>(InfoLevel.Trace, "ReadLoop: Message received: {msgReceived}");
+                logger.Write<MessageListener>(InfoLevel.Trace, $"ReadLoop: Message received: {msgReceived}");
 
                 if (msgReceived == "")
                 {

@@ -4,9 +4,8 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
-using SimpleTcpServer;
 
-namespace SimpleClient
+namespace SimpleServer
 {
     public class ConnectionListener : IConnectionListener
     {

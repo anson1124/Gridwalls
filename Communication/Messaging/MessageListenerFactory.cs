@@ -1,7 +1,7 @@
 ﻿using Logging;
 using Messaging;
 
-namespace SimpleClient
+namespace SimpleServer
 {
     public class MessageListenerFactory : IMessageListenerFactory
     {

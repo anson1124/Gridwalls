@@ -41,8 +41,7 @@ namespace Logging
                 return;
             }
 
-            lock (logLock)
-            {
+            lock (logLock) {
                 logStreamWriter.WriteLine(logLineFactory.Log<T>(infoLevel, text));
                 logStreamWriter.Flush();
             }
